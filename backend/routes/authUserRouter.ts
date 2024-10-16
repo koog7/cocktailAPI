@@ -3,23 +3,17 @@ import { imagesUpload } from '../multer';
 import User from '../models/Users';
 import { randomUUID } from 'crypto';
 import * as mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const authUserRouter = express.Router();
 authUserRouter.use(express.json());
 
-authUserRouter.post( '/' , imagesUpload.single('avatar') , async (req, res, next )=>{
+authUserRouter.post('/' , imagesUpload.single('avatar') , async (req, res, next )=>{
   try {
-
-    const { username, password, displayName, avatar } = req.body;
-
-    if (!username || !password || !displayName || !avatar) {
-      res.status(400).send({ message: 'All fields should be provided' });
-    }
-
     const existingUser = await User.findOne({ email: req.body.email });
 
     if (existingUser) {
-      res.status(400).send({ message: 'Username already taken' });
+      return res.status(400).send({ message: 'Username already taken' });
     }
 
     const user = new User({
@@ -34,10 +28,34 @@ authUserRouter.post( '/' , imagesUpload.single('avatar') , async (req, res, next
     res.send(user)
   }catch (e) {
     if(e instanceof mongoose.Error.ValidationError){
-      res.status(400).send(e)
+      return res.status(400).send(e)
     }
     return next(e)
   }
 });
+
+
+authUserRouter.post('/sessions' , async (req, res, next) => {
+  try {
+    const user = await User.findOne({email: req.body.email})
+
+    if(!user){
+      return res.status(400).send({error:'User or password are wrong'})
+    }
+
+    const comparePswrd = await bcrypt.compare(req.body.password , user.password)
+
+    if(!comparePswrd){
+      return res.status(400).send({error:'User or password are wrong'})
+    }
+
+    user.token = randomUUID();
+
+    await user.save()
+    res.send(user)
+  }catch (e) {
+    next(e)
+  }
+})
 
 export default authUserRouter;

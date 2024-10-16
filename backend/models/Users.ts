@@ -4,6 +4,16 @@ import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 
+export interface IUser {
+  _id: string;
+  email: string;
+  displayName: string;
+  avatar: string;
+  password: string;
+  role: 'user' | 'admin';
+  token: string;
+}
+
 const UserSchema = new Schema({
   email: {
     type: String,

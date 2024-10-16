@@ -10,6 +10,12 @@ authUserRouter.use(express.json());
 authUserRouter.post( '/' , imagesUpload.single('avatar') , async (req, res, next )=>{
   try {
 
+    const { username, password, displayName, avatar } = req.body;
+
+    if (!username || !password || !displayName || !avatar) {
+      res.status(400).send({ message: 'All fields should be provided' });
+    }
+
     const existingUser = await User.findOne({ email: req.body.email });
 
     if (existingUser) {

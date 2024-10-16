@@ -1,6 +1,7 @@
 import express from 'express';
 import * as mongoose from 'mongoose';
-import cocktailRouter from './routes/CocktailRouter';
+import cocktailRouter from './routes/cocktailRouter';
+import authUserRouter from './routes/authUserRouter';
 
 const app = express()
 const port = 8000;
@@ -8,6 +9,7 @@ const port = 8000;
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/cocktail' , cocktailRouter)
+app.use('/users', authUserRouter)
 
 const run = async () => {
   try{

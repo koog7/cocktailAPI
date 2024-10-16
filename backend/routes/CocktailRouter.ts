@@ -30,7 +30,7 @@ cocktailRouter.post('/' , async (req, res, next) => {
     res.send(cocktail)
 
   }catch(err) {
-    next(err);
+    next(err)
   }
 })
 

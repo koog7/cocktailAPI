@@ -25,6 +25,7 @@ const CocktailSchema = new Schema({
     default: false,
   },
   ingredients:[{
+    _id:false,
     name:{
       type: String,
       required: true,

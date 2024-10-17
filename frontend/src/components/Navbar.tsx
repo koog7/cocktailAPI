@@ -41,6 +41,7 @@ const Navbar = () => {
                     </Typography>
                     {userData? (
                         <div style={{display:'flex', alignItems:'center'}}>
+                            <NavLink to={'/createCocktail'}>Create New cocktail</NavLink>
                             <p style={{fontSize:'18px', marginTop:'17px', marginRight:'10px'}}>Welcome, {userData.displayName}!</p>
                             <Button color="inherit" onClick={logOut}>Log out</Button>
                         </div>

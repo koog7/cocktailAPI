@@ -6,7 +6,7 @@ interface Ingridients {
     amount: string;
 }
 
-interface CocktailProps {
+export interface CocktailProps {
     _id: string;
     userId: {
         _id: string;
@@ -17,6 +17,17 @@ interface CocktailProps {
     recipe:string;
     isPublished: boolean;
     ingredients: Ingridients[];
+}
+
+interface ICocktail {
+    userId: string;
+    name: string;
+    recipe: string;
+    photo: File | null;
+    ingredients: {
+        name: string;
+        amount: string;
+    }[];
 }
 
 interface CocktailState {
@@ -45,6 +56,26 @@ export const getUserCocktail = createAsyncThunk('cocktail/getUserCocktail', asyn
 export const getOneCocktail = createAsyncThunk('cocktail/getOne', async (id:string) =>{
     const response = await axiosAPI.get(`/cocktail/${id}`)
     return response.data;
+})
+
+export const postNewCocktail = createAsyncThunk<void , ICocktail , { rejectValue: string }>('cocktail/postNew' , async(ICocktail, { rejectWithValue }) =>{
+    try {
+        const formData = new FormData();
+        formData.append('userId', ICocktail.userId);
+        formData.append('name', ICocktail.name);
+        if (ICocktail.photo) {
+            formData.append('image', ICocktail.photo);
+        }
+        formData.append('recipe', ICocktail.recipe);
+        ICocktail.ingredients.forEach((ingredient, index) => {
+            formData.append(`ingredients[${index}][name]`, ingredient.name);
+            formData.append(`ingredients[${index}][amount]`, ingredient.amount);
+        });
+
+        await axiosAPI.post('/cocktail', formData)
+    }catch (error) {
+        return rejectWithValue('An unknown error occurred');
+    }
 })
 export const CocktailsSlice = createSlice({
     name:'Cocktail',

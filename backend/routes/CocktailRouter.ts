@@ -2,6 +2,7 @@ import express from 'express';
 import Cocktail from '../models/Cocktails';
 import permit from '../middleware/permit';
 import authCheck from '../middleware/authCheck';
+import { imagesUpload } from '../multer';
 
 const cocktailRouter = express.Router();
 cocktailRouter.use(express.json());
@@ -23,7 +24,7 @@ cocktailRouter.get('/:id', async (req, res) => {
   res.send(findCocktail)
 })
 
-cocktailRouter.patch('/:id/activate', authCheck, permit('admin'), async (req, res, next) => {
+cocktailRouter.patch('/:id/activate', authCheck , permit('admin'), async (req, res, next) => {
   const id = req.params.id;
 
   if (!id) {
@@ -45,12 +46,12 @@ cocktailRouter.patch('/:id/activate', authCheck, permit('admin'), async (req, re
   }
 })
 
-cocktailRouter.post('/' , async (req, res, next) => {
+cocktailRouter.post('/', authCheck, imagesUpload.single('image') , async (req, res, next) => {
   try {
     const cocktail = new Cocktail({
       userId: req.body.userId,
       name: req.body.name,
-      image: req.body.image,
+      image: req.file?.filename,
       recipe: req.body.recipe,
       isPublished: false,
       ingredients: req.body.ingredients

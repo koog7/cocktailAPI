@@ -15,7 +15,7 @@ const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayNa
             <CardMedia
                 component="img"
                 height="140"
-                image={image}
+                image={`http://localhost:8000/images/${image}`}
                 alt={name}
             />
             <CardContent style={{paddingBottom:'10px'}}>

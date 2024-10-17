@@ -22,7 +22,7 @@ const CocktailInfo = () => {
         <div style={{ border: '1px solid #ddd', padding: '20px', maxWidth: '600px', margin: '20px auto' }}>
             <h2>{allCocktails[0]?.name}</h2>
             <p>Автор: {allCocktails[0]?.userId.displayName}</p>
-            <img src={allCocktails[0]?.image} alt={allCocktails[0]?.name} style={{ width: '30%', height: 'auto' }} />
+            <img src={`http://localhost:8000/images/${allCocktails[0]?.image}`} alt={allCocktails[0]?.name} style={{ width: '30%', height: 'auto' }} />
             <h3>Recipe:</h3>
             <p>{allCocktails[0]?.recipe}</p>
             <h4>Ingredients:</h4>

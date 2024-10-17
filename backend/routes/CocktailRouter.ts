@@ -46,7 +46,7 @@ cocktailRouter.post('/' , async (req, res, next) => {
       name: req.body.name,
       image: req.body.image,
       recipe: req.body.recipe,
-      isPublished: req.body.isPublished || false,
+      isPublished: false,
       ingredients: req.body.ingredients
     })
 

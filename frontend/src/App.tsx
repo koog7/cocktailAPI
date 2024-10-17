@@ -8,6 +8,7 @@ import MyCocktails from './containers/MyCocktails.tsx';
 import NotFound from './components/NotFound.tsx';
 import { useSelector } from 'react-redux';
 import { RootState } from './app/store.ts';
+import CocktailInfo from './containers/CocktailInfo.tsx';
 
 const App = () => {
   const loader = useSelector((state: RootState) => state.Cocktail.loader)
@@ -33,6 +34,9 @@ const App = () => {
           )} />
           <Route path="/myCocktails" element={(
               <MyCocktails />
+          )} />
+          <Route path="/cocktail/:id" element={(
+              <CocktailInfo/>
           )} />
           <Route path="*" element={(
               <NotFound />

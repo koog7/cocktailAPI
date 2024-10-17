@@ -10,7 +10,7 @@ interface CocktailCardProps {
 
 const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayName }) => {
     return (
-        <NavLink to={`/${_id}`} style={{textDecoration:'none', color:'white'}}>
+        <NavLink to={`/cocktail/${_id}`} style={{textDecoration:'none', color:'white'}}>
           <Card sx={{ minWidth: 200 }}>
             <CardMedia
                 component="img"

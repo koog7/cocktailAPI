@@ -7,7 +7,7 @@ const cocktailRouter = express.Router();
 cocktailRouter.use(express.json());
 
 cocktailRouter.get('/', async (req, res) => {
-  const findAllCocktails = await Cocktail.find()
+  const findAllCocktails = await Cocktail.find().populate('userId', 'displayName').exec();
   res.send(findAllCocktails)
 })
 

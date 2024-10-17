@@ -3,6 +3,7 @@ import {persistReducer, persistStore} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { UserReducer } from "../containers/Thunk/AuthFetch";
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
+import { CocktailsReducer } from '../containers/Thunk/CocktailsFetch.ts';
 
 const usersPersistConfig = {
     key: 'cocktailUserData:User',
@@ -12,6 +13,7 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
     User: persistReducer(usersPersistConfig, UserReducer),
+    Cocktail: CocktailsReducer,
 });
 
 export const store = configureStore({

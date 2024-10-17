@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store.ts';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { authorizationUser, loginUser } from '../Thunk/AuthFetch.ts';
+import { authorizationUser } from '../Thunk/AuthFetch.ts';
 
 const Login = () => {
 

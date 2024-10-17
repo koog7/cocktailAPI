@@ -37,6 +37,11 @@ export const getAllCocktails = createAsyncThunk('cocktail/getAll', async () =>{
     return response.data;
 })
 
+export const getUserCocktail = createAsyncThunk('cocktail/getUserCocktail', async (id:string) =>{
+    console.log(id)
+    const response = await axiosAPI.get(`/cocktail/userId/${id}`)
+    return response.data;
+})
 export const CocktailsSlice = createSlice({
     name:'Cocktail',
     initialState,
@@ -52,6 +57,19 @@ export const CocktailsSlice = createSlice({
             state.error = null;
         });
         builder.addCase(getAllCocktails.rejected, (state: CocktailState , action) => {
+            state.loader = false;
+            state.error = action.payload as string;
+        });
+        builder.addCase(getUserCocktail.pending, (state: CocktailState) => {
+            state.loader = true;
+            state.error = null;
+        });
+        builder.addCase(getUserCocktail.fulfilled, (state: CocktailState, action) => {
+            state.cocktail = action.payload;
+            state.loader = false;
+            state.error = null;
+        });
+        builder.addCase(getUserCocktail.rejected, (state: CocktailState , action) => {
             state.loader = false;
             state.error = action.payload as string;
         });

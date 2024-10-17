@@ -11,9 +11,15 @@ cocktailRouter.get('/', async (req, res) => {
   res.send(findAllCocktails)
 })
 
+cocktailRouter.get('/userId/:id', async (req, res) => {
+  const id = req.params.id;
+  const findAllCocktails = await Cocktail.find({userId: id}).populate('userId', 'displayName').exec();
+  res.send(findAllCocktails)
+})
+
 cocktailRouter.get('/:id', async (req, res) => {
   const id = req.params.id;
-  const findCocktail = await Cocktail.find({ _id: id })
+  const findCocktail = await Cocktail.find({ _id: id }).populate('userId', 'displayName').exec();
   res.send(findCocktail)
 })
 

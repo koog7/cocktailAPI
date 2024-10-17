@@ -31,14 +31,17 @@ const Navbar = () => {
                         sx={{ mr: 2 }}
                     >
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{display:'flex', flexGrow: 1 , justifyContent: 'space-between' }}>
                         <NavLink to={'/'} style={{textDecoration:'none', color:'white'}}>
                             Cocktail builder
+                        </NavLink>
+                        <NavLink className={'btn-cocktails'} to={'/myCocktails'} style={{ color:'white', marginRight:'20px'}}>
+                            My cocktails
                         </NavLink>
                     </Typography>
                     {userData? (
                         <div style={{display:'flex', alignItems:'center'}}>
-                            <p style={{fontSize:'18px', marginTop:'15px', marginRight:'10px'}}>Welcome, {userData.displayName}!</p>
+                            <p style={{fontSize:'18px', marginTop:'17px', marginRight:'10px'}}>Welcome, {userData.displayName}!</p>
                             <Button color="inherit" onClick={logOut}>Log out</Button>
                         </div>
                     ):(

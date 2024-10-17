@@ -1,38 +1,37 @@
-import {Box, Button, TextField} from "@mui/material";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../app/store.ts";
-import {useNavigate} from "react-router-dom";
-import { ChangeEvent, useRef, useState } from 'react';
-import {authorizationUser} from "../Thunk/AuthFetch.ts";
+import { Box, Button, TextField } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store.ts';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { authorizationUser } from '../Thunk/AuthFetch.ts';
 
 const Login = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
+    const [emailError, setEmailError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+
     const [login, setLogin] = useState({
           email: '',
           password: '',
-        });
-        const [localError , setLocalError] = useState<boolean>(false)
+    });
 
-        const submitData = async (e: React.FormEvent) => {
-            e.preventDefault();
-            try {
-                const dis = await dispatch(authorizationUser(login));
+    const submitData = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-                if (dis.type === 'users/singUp/rejected'){
-                    setLocalError(true)
-                }else{
-                    navigate('/');
-                    location.reload();
-                }
-
-            } catch (error) {
-                console.log('Unexpected Error:', error);
-            }
-
-      };
+        if (login.email.trim() !== '') {
+            setPasswordError('Field is required');
+            return;
+        }
+         if(login.password.trim() !== ''){
+             setEmailError('Field is required');
+             return;
+         }
+        await dispatch(authorizationUser(login));
+        navigate('/');
+    };
 
     return (
         <div style={{marginLeft: '0px'}}>
@@ -61,6 +60,9 @@ const Login = () => {
                   InputProps={{
                     style: { backgroundColor: 'white' },
                   }}
+                  required={true}
+                  error={!!emailError}
+                  helperText={emailError}
                 />
                     <TextField
                       label="Password"
@@ -74,12 +76,10 @@ const Login = () => {
                       InputProps={{
                         style: { backgroundColor: 'white' },
                       }}
+                      required={true}
+                      error={!!passwordError}
+                      helperText={passwordError}
                     />
-                    {localError && (
-                        <div>
-                          <p style={{ color: 'red' }}>Username or password are incorrect</p>
-                        </div>
-                    )}
                 <Button
                     variant="contained"
                     sx={{

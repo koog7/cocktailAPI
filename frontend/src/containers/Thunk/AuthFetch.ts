@@ -30,8 +30,6 @@ const initialState: UserState = {
 };
 export const loginUser = createAsyncThunk<User , LoginData , { rejectValue: string }>('users/singIn', async (loginData, { rejectWithValue }) => {
     try{
-        console.log(loginData);
-
         const formData = new FormData();
         formData.append('email', loginData.email);
         formData.append('displayName', loginData.displayName);
@@ -51,7 +49,7 @@ export const loginUser = createAsyncThunk<User , LoginData , { rejectValue: stri
     }
 });
 
-export const authorizationUser = createAsyncThunk<User , LoginData , { rejectValue: string }>('users/singUp', async (loginData: { email: string; password: string }, { rejectWithValue }) => {
+export const authorizationUser = createAsyncThunk<User , { email: string; password: string } , { rejectValue: string }>('users/singUp', async (loginData: { email: string; password: string }, { rejectWithValue }) => {
     try{
         const response = await axiosAPI.post(`/users/sessions` , loginData);
         return response.data;

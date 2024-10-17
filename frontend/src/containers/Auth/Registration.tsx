@@ -14,8 +14,6 @@ const Registration = () => {
     const [file, setFile] = useState<File | null>(null);
 
 
-    //const typeError = useSelector((state: RootState) => state.User.error)
-
     const [login, setLogin] = useState({
         email: '',
         displayName: '',
@@ -93,11 +91,7 @@ const Registration = () => {
                         style: { backgroundColor: 'white' },
                     }}
                 />
-                {/*{localError && (*/}
-                {/*  <div>*/}
-                {/*    <p style={{color: 'red'}}>{typeError}</p>*/}
-                {/*  </div>)*/}
-                {/*}*/}
+
                 <input ref={urlFile} accept="image/*" onChange={onFileChange} type={"file"} style={{ marginTop: '20px' }} />
                 <Button
                     variant="contained"

@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../app/store.ts";
 import {logout} from "../containers/Thunk/AuthFetch.ts";
-import { useEffect } from 'react';
 
 const Navbar = () => {
 

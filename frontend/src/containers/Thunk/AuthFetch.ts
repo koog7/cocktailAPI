@@ -55,7 +55,7 @@ export const authorizationUser = createAsyncThunk<User , { email: string; passwo
         return response.data;
     }catch (error) {
         if (error instanceof AxiosError) {
-            return rejectWithValue(error.response?.data?.message || 'An error occurred');
+            return rejectWithValue(error.response?.data?.message || 'Email or password are incorrect');
         }
         return rejectWithValue('An unknown error occurred');
     }

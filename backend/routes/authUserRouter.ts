@@ -37,13 +37,12 @@ authUserRouter.post('/' , imagesUpload.single('avatar') , async (req, res, next 
 
 authUserRouter.post('/sessions' , async (req, res, next) => {
   try {
-    console.log(req.body);
     const user = await User.findOne({email: req.body.email})
 
     if(!user){
       return res.status(400).send({error:'User or password are wrong'})
     }
-    console.log(user)
+
     const comparePswrd = await bcrypt.compare(req.body.password , user.password)
 
     if(!comparePswrd){

@@ -1,14 +1,16 @@
 import { Box, Button, TextField } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../app/store.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../app/store.ts';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { authorizationUser } from '../Thunk/AuthFetch.ts';
+import { authorizationUser, loginUser } from '../Thunk/AuthFetch.ts';
 
 const Login = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
+
+    const error = useSelector((state: RootState) => state.User.error)
 
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -23,14 +25,21 @@ const Login = () => {
 
         if (login.email.trim() !== '') {
             setPasswordError('Field is required');
-            return;
         }
-         if(login.password.trim() !== ''){
-             setEmailError('Field is required');
-             return;
-         }
-        await dispatch(authorizationUser(login));
-        navigate('/');
+        if(login.password.trim() !== ''){
+            setEmailError('Field is required');
+        }
+
+        if(login.email.trim() !== '' && login.password.trim() !== ''){
+            const dis = await dispatch(authorizationUser(login));
+
+            if(dis.type === 'users/singUp/rejected'){
+                return;
+            }else{
+                navigate('/');
+            }
+        }
+
     };
 
     return (
@@ -80,6 +89,9 @@ const Login = () => {
                       error={!!passwordError}
                       helperText={passwordError}
                     />
+                {error && (
+                    <div style={{color:'red'}}>{error}</div>
+                )}
                 <Button
                     variant="contained"
                     sx={{

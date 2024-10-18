@@ -17,8 +17,8 @@ const Home = () => {
 
 
     useEffect(() => {
-        console.log(userData);
-    }, [userData]);
+        console.log(allCocktails);
+    }, [allCocktails]);
     return (
         <div>
             <div style={{ display: 'flex', gap: '20px', marginTop:'50px' }}>
@@ -31,6 +31,7 @@ const Home = () => {
                                 image={cocktail.image}
                                 name={cocktail.name}
                                 displayName={cocktail.userId.displayName}
+                                isPublished={cocktail.isPublished}
                             />
                         ))
                     ) : (
@@ -52,6 +53,7 @@ const Home = () => {
                                 image={cocktail.image}
                                 name={cocktail.name}
                                 displayName={cocktail.userId.displayName}
+                                isPublished={cocktail.isPublished}
                             />
                         ))
                     ) : (

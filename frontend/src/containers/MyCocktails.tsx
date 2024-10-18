@@ -34,6 +34,7 @@ const MyCocktails = () => {
                         image={cocktail.image}
                         name={cocktail.name}
                         displayName={cocktail.userId.displayName}
+                        isPublished={cocktail.isPublished}
                     />
                 ))}
             </div>

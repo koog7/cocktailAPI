@@ -62,6 +62,10 @@ export const activateRecipe = createAsyncThunk('cocktail/activate', async (id:st
     await axiosAPI.patch(`/cocktail/${id}/activate`)
 })
 
+export const deleteRecipe = createAsyncThunk('cocktail/delete', async (id:string) =>{
+    await axiosAPI.delete(`/cocktail/${id}`)
+})
+
 export const postNewCocktail = createAsyncThunk<void , ICocktail , { rejectValue: string }>('cocktail/postNew' , async(ICocktail, { rejectWithValue }) =>{
     try {
         const formData = new FormData();
@@ -135,6 +139,18 @@ export const CocktailsSlice = createSlice({
             state.error = null;
         });
         builder.addCase(activateRecipe.rejected, (state: CocktailState , action) => {
+            state.loader = false;
+            state.error = action.payload as string;
+        });
+        builder.addCase(deleteRecipe.pending, (state: CocktailState) => {
+            state.loader = true;
+            state.error = null;
+        });
+        builder.addCase(deleteRecipe.fulfilled, (state: CocktailState) => {
+            state.loader = false;
+            state.error = null;
+        });
+        builder.addCase(deleteRecipe.rejected, (state: CocktailState , action) => {
             state.loader = false;
             state.error = action.payload as string;
         });

@@ -15,10 +15,6 @@ const Home = () => {
         dispatch(getAllCocktails());
     }, [dispatch]);
 
-
-    useEffect(() => {
-        console.log(allCocktails);
-    }, [allCocktails]);
     return (
         <div>
             <div style={{ display: 'flex', gap: '20px', marginTop:'50px' }}>

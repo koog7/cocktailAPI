@@ -2,7 +2,7 @@ import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store.ts';
-import { activateRecipe } from '../containers/Thunk/CocktailsFetch.ts';
+import { activateRecipe, deleteRecipe } from '../containers/Thunk/CocktailsFetch.ts';
 
 interface CocktailCardProps {
   _id: string;
@@ -21,7 +21,12 @@ const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayNa
         await dispatch(activateRecipe(id))
         location.reload()
     }
-    console.log(_id , '-' , isPublished)
+
+    const clickDelete = async (id:string) => {
+        await dispatch(deleteRecipe(id))
+        location.reload()
+    }
+
     return (
         <NavLink to={`/cocktail/${_id}`} style={{textDecoration:'none', color:'white'}}>
           <Card sx={{ minWidth: 200 }}>
@@ -42,8 +47,8 @@ const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayNa
                 By: <strong>{displayName}</strong>
               </p>
             </CardContent>
-              {userData && userData.role === 'admin' && !isPublished && (
-                  <div>
+              <div>
+                  {userData && userData.role === 'admin' && !isPublished && (
                       <button
                           onClick={(e) => {
                               e.preventDefault();
@@ -54,8 +59,19 @@ const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayNa
                       >
                           Publish
                       </button>
-                  </div>
-              )}
+                  )}
+                  {userData && userData.role === 'admin' && (
+                      <button
+                          onClick={(e) =>{
+                              e.preventDefault();
+                              e.stopPropagation();
+                              clickDelete(_id)}}
+                          style={{ backgroundColor: 'red', margin: '10px' }}
+                      >
+                          Delete
+                      </button>
+                  )}
+              </div>
           </Card>
         </NavLink>
     );

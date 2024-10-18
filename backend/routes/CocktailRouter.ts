@@ -23,11 +23,12 @@ cocktailRouter.get('/:id', async (req, res) => {
   const findCocktail = await Cocktail.find({ _id: id }).populate('userId', 'displayName').exec();
   res.send(findCocktail)
 })
-cocktailRouter.delete('/:id', async (req, res) => {
+cocktailRouter.delete('/:id', authCheck , permit('admin'), async (req, res) => {
   const id = req.params.id;
-  const findCocktail = await Cocktail.findOneAndDelete({ _id: id });
+  await Cocktail.findOneAndDelete({ _id: id });
   res.send({message:'Delete success'})
 })
+
 cocktailRouter.patch('/:id/activate', authCheck , permit('admin'), async (req, res, next) => {
   const id = req.params.id;
 

@@ -25,7 +25,7 @@ const CreateForm = () => {
         if(!userData){
             navigate('/')
         }
-    }, [userData]);
+    }, [userData , navigate]);
 
     if(!userData){
         return;

@@ -10,10 +10,6 @@ const CocktailInfo = () => {
     const allCocktails = useSelector((state: RootState) => state.Cocktail.cocktail)
 
     useEffect(() => {
-        console.log(allCocktails)
-    }, [allCocktails]);
-
-    useEffect(() => {
         if(id){
             dispatch(getOneCocktail(id))
         }

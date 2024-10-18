@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosAPI from "../../axios/AxiosAPI.ts";
 
-import { AxiosError } from 'axios';
+import { AxiosError, isAxiosError } from 'axios';
 import { RootState } from "../../app/store.ts";
 
 export interface User{
@@ -67,6 +67,18 @@ export const logout = createAsyncThunk<void, string, {state: RootState}>('users/
     }
 );
 
+export const googleLogin = createAsyncThunk<User, string, {rejectValue : string}>('users/googleLogin', async (credential, { rejectWithValue }) => {
+    try {
+        const response = await axiosAPI.post('/users/google', { credential });
+        return response.data.user;
+    } catch (e) {
+        if (isAxiosError(e) && e.response && e.response.status === 400) {
+            return rejectWithValue(e.response.data);
+        }
+        throw e;
+    }}
+,);
+
 export const UserSlice = createSlice({
     name:'User',
     initialState,
@@ -108,6 +120,19 @@ export const UserSlice = createSlice({
             state.error = null;
         });
         builder.addCase(logout.rejected, (state: UserState , action) => {
+            state.loader = false;
+            state.error = action.payload as string;
+        });
+        builder.addCase(googleLogin.pending, (state: UserState) => {
+            state.loader = true;
+            state.error = null;
+        });
+        builder.addCase(googleLogin.fulfilled, (state: UserState, action) => {
+            state.user = action.payload;
+            state.loader = false;
+            state.error = null;
+        });
+        builder.addCase(googleLogin.rejected, (state: UserState , action) => {
             state.loader = false;
             state.error = action.payload as string;
         });

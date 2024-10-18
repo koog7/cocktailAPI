@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store.ts';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { authorizationUser } from '../Thunk/AuthFetch.ts';
+import { authorizationUser, googleLogin } from '../Thunk/AuthFetch.ts';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
 
@@ -36,6 +37,11 @@ const Login = () => {
         }else{
             navigate('/');
         }
+    };
+
+    const googleLoginHandler = async (credential: string) => {
+        await dispatch(googleLogin(credential)).unwrap();
+        navigate('/');
     };
 
     return (
@@ -98,6 +104,11 @@ const Login = () => {
                     fullWidth>
                     Enter
                   </Button>
+                <GoogleLogin theme={"filled_black"}  onSuccess={(credentialResponse) =>{
+                    if (credentialResponse.credential) {
+                        void googleLoginHandler(credentialResponse.credential);
+                    }
+                }}/>
             </Box>
         </div>
     )};

@@ -4,9 +4,14 @@ import User from '../models/Users';
 import { randomUUID } from 'crypto';
 import * as mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { OAuth2Client } from 'google-auth-library';
+import config from '../config';
+
 
 const authUserRouter = express.Router();
 authUserRouter.use(express.json());
+const googleClient = new OAuth2Client(config.google.clientId);
+
 
 authUserRouter.post('/' , imagesUpload.single('avatar') , async (req, res, next )=>{
   try {
@@ -15,8 +20,6 @@ authUserRouter.post('/' , imagesUpload.single('avatar') , async (req, res, next 
     if (existingUser) {
       return res.status(400).send({ message: 'Email already taken' });
     }
-
-    const existingName = await User.findOne({ displayName: req.body.displayName });
 
     if (existingUser) {
       return res.status(400).send({ message: 'Display name already taken' });
@@ -84,5 +87,49 @@ authUserRouter.delete('/sessions', async (req, res, next) => {
     return next(e);
   }
 });
+
+
+authUserRouter.post('/google' , async(req , res , next) => {
+  try{
+    const ticket = await googleClient.verifyIdToken({
+      idToken: req.body.credential,
+      audience: config.google.clientId,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      return res.status(400).send({ error: "Google login error!" });
+    }
+
+    const email = payload.email;
+    const id = payload.sub;
+    const displayName = payload.name;
+    const avatar = payload.picture;
+
+    if (!email) {
+      return res.status(400).send({ error: "Not enough user data to continue" });
+    }
+
+    let user = await User.findOne({googleID: id}).exec()
+
+    if (!user) {
+      const newUser = new User({
+        email: email,
+        password: crypto.randomUUID(),
+        googleId: id,
+        displayName: displayName,
+        avatar: avatar,
+        token: randomUUID(),
+      });
+      await newUser.save();
+      user = newUser;
+    }
+
+    return res.send({ message: "Login with Google successful!", user });
+  }catch (e) {
+    return next(e)
+  }
+})
 
 export default authUserRouter;

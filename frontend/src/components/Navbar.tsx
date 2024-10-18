@@ -53,9 +53,12 @@ const Navbar = () => {
                             <p style={{
                                 fontSize: '18px',
                                 marginTop: '17px',
-                                marginRight: '10px'
+                                marginRight: '10px',
                             }}>Welcome, {userData.displayName}!</p>
-                            <img style={{width:'30px', borderRadius:'20%',marginRight: '30px'}} src={`http://localhost:8000/images/${userData?.avatar}`} alt={'User php'}/>
+                            <img
+                                src={userData.avatar.startsWith('http') ? userData.avatar : `http://localhost:8000/images/${userData.avatar}`}
+                                alt="Аватар"
+                                style={{ width: '50px', height: '50px', borderRadius: '50%', marginTop: '0px' }} />
                             <div>
                                 <Button
                                     id="basic-button"
@@ -75,9 +78,11 @@ const Navbar = () => {
                                         'aria-labelledby': 'basic-button',
                                     }}
                                 >
-                                    <p style={{marginLeft:'15px'}}><strong>Your role: {userData?.role}</strong></p>
-                                    <MenuItem onClick={handleClose} component={Link} to="/myCocktails">My cocktails</MenuItem>
-                                    <MenuItem onClick={handleClose} component={Link} to="/createCocktail">Create New cocktail</MenuItem>
+                                    <p style={{ marginLeft: '15px' }}><strong>Your role: {userData?.role}</strong></p>
+                                    <MenuItem onClick={handleClose} component={Link} to="/myCocktails">My
+                                        cocktails</MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to="/createCocktail">Create New
+                                        cocktail</MenuItem>
                                     <MenuItem onClick={logOut}>Logout</MenuItem>
                                 </Menu>
                             </div>

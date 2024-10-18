@@ -41,6 +41,9 @@ const UserSchema = new Schema({
   token: {
     type: String,
     required: true,
+  },
+  googleId:{
+    type: String,
   }
 })
 

@@ -103,6 +103,7 @@ const CreateForm = () => {
                         required
                         value={cocktail.name}
                         onChange={onFieldChange}
+                        className="form-input"
                     />
                 </div>
                 <div className="form-field">
@@ -113,6 +114,7 @@ const CreateForm = () => {
                         required
                         value={cocktail.recipe}
                         onChange={onFieldChange}
+                        className="form-input"
                     />
                 </div>
                 <div className="form-field">
@@ -125,6 +127,7 @@ const CreateForm = () => {
                                 name="name"
                                 required
                                 onChange={(event) => onIngChange(event, index)}
+                                className="form-input"
                             />
                             <input
                                 placeholder="Amount"
@@ -132,6 +135,7 @@ const CreateForm = () => {
                                 name="amount"
                                 required
                                 onChange={(event) => onIngChange(event, index)}
+                                className="form-input"
                             />
                             {index > 0 && (
                                 <button

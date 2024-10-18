@@ -78,8 +78,8 @@ label {
   font-weight: bold;
 }
 
-input[type="text"],
-input[type="file"] {
+
+.form-input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;

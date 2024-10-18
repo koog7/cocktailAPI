@@ -1,8 +1,9 @@
-import {AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../app/store.ts";
 import {logout} from "../containers/Thunk/AuthFetch.ts";
+import { useState } from 'react';
 
 const Navbar = () => {
 
@@ -20,6 +21,17 @@ const Navbar = () => {
         }
     }
 
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <div>
             <AppBar position="static" sx={{backgroundColor:'#424242' , minWidth:'1000px'}}>
@@ -35,17 +47,41 @@ const Navbar = () => {
                         <NavLink to={'/'} style={{textDecoration:'none', color:'white'}}>
                             Cocktail builder
                         </NavLink>
-                        <NavLink className={'btn-cocktails'} to={'/myCocktails'} style={{ color:'white', marginRight:'20px'}}>
-                            My cocktails
-                        </NavLink>
                     </Typography>
                     {userData? (
-                        <div style={{display:'flex', alignItems:'center'}}>
-                            <NavLink to={'/createCocktail'}>Create New cocktail</NavLink>
-                            <p style={{fontSize:'18px', marginTop:'17px', marginRight:'10px'}}>Welcome, {userData.displayName}!</p>
-                            <Button color="inherit" onClick={logOut}>Log out</Button>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <p style={{
+                                fontSize: '18px',
+                                marginTop: '17px',
+                                marginRight: '10px'
+                            }}>Welcome, {userData.displayName}!</p>
+
+                            <div>
+                                <Button
+                                    id="basic-button"
+                                    aria-controls={open ? 'basic-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    onClick={handleClick}
+                                >
+                                    Menu
+                                </Button>
+                                <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
+                                    <MenuItem onClick={handleClose} component={Link} to="/myCocktails">My cocktails</MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to="/createCocktail">Create New cocktail</MenuItem>
+                                    <MenuItem onClick={logOut}>Logout</MenuItem>
+                                </Menu>
+                            </div>
                         </div>
-                    ):(
+                    ) : (
                         <div>
                             <NavLink to={'/login'}>
                                 <Button color="inherit">Log in</Button>

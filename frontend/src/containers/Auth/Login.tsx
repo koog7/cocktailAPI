@@ -2,7 +2,7 @@ import { Box, Button, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store.ts';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { authorizationUser } from '../Thunk/AuthFetch.ts';
 
 const Login = () => {
@@ -12,34 +12,30 @@ const Login = () => {
 
     const error = useSelector((state: RootState) => state.User.error)
 
-    const [emailError, setEmailError] = useState<string | null>(null);
-    const [passwordError, setPasswordError] = useState<string | null>(null);
-
     const [login, setLogin] = useState({
           email: '',
           password: '',
     });
+    const [isValid, setIsValid] = useState(false);
+
+    useEffect(() => {
+        if (login.email.length > 0 && login.password.length > 0) {
+            setIsValid(true);
+        } else {
+            setIsValid(false);
+        }
+    }, [login.email, login.password]);
 
     const submitData = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (login.email.trim() !== '') {
-            setPasswordError('Field is required');
-        }
-        if(login.password.trim() !== ''){
-            setEmailError('Field is required');
-        }
+        const dis = await dispatch(authorizationUser(login));
 
-        if(login.email.trim() !== '' && login.password.trim() !== ''){
-            const dis = await dispatch(authorizationUser(login));
-
-            if(dis.type === 'users/singUp/rejected'){
-                return;
-            }else{
-                navigate('/');
-            }
+        if(dis.type === 'users/singUp/rejected'){
+            return;
+        }else{
+            navigate('/');
         }
-
     };
 
     return (
@@ -70,8 +66,6 @@ const Login = () => {
                     style: { backgroundColor: 'white' },
                   }}
                   required={true}
-                  error={!!emailError}
-                  helperText={emailError}
                 />
                     <TextField
                       label="Password"
@@ -86,8 +80,6 @@ const Login = () => {
                         style: { backgroundColor: 'white' },
                       }}
                       required={true}
-                      error={!!passwordError}
-                      helperText={passwordError}
                     />
                 {error && (
                     <div style={{color:'red'}}>{error}</div>
@@ -102,6 +94,7 @@ const Login = () => {
                       },
                     }}
                     onClick={submitData}
+                    disabled={!isValid}
                     fullWidth>
                     Enter
                   </Button>

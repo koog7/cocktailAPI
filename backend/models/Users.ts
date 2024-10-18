@@ -22,7 +22,6 @@ const UserSchema = new Schema({
   },
   displayName:{
     type: String,
-    required: true,
     unique: true,
   },
   avatar:{

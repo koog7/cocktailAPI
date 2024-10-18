@@ -55,7 +55,7 @@ const Navbar = () => {
                                 marginTop: '17px',
                                 marginRight: '10px'
                             }}>Welcome, {userData.displayName}!</p>
-
+                            <img style={{width:'30px', borderRadius:'20%',marginRight: '30px'}} src={`http://localhost:8000/images/${userData?.avatar}`} alt={'User php'}/>
                             <div>
                                 <Button
                                     id="basic-button"

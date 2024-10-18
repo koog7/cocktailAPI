@@ -1,7 +1,7 @@
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../app/store.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../app/store.ts';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { loginUser } from '../Thunk/AuthFetch.ts';
 
@@ -12,21 +12,34 @@ const Registration = () => {
 
     const urlFile = useRef(null)
     const [file, setFile] = useState<File | null>(null);
-
+    const error = useSelector((state: RootState) => state.User.error)
 
     const [login, setLogin] = useState({
         email: '',
         displayName: '',
         password: '',
     });
+    const [isValid, setIsValid] = useState(false);
+
+
+    useEffect(() => {
+        if (login.email.length > 0 && login.password.length > 0 && login.displayName.length > 0 && file) {
+            setIsValid(true);
+        } else {
+            setIsValid(false);
+        }
+    }, [login.email, login.password,login.displayName, file]);
 
     const submitData = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        await dispatch(loginUser({email:login.email, displayName: login.displayName, password: login.password , avatar: file}));
-        await navigate("/");
+        const dis = await dispatch(loginUser({email:login.email, displayName: login.displayName, password: login.password , avatar: file}));
+        if(dis.type === 'users/singIn/rejected'){
+            return;
+        }else{
+            navigate('/');
+        }
     };
-
     const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const fileInput = e.target.files
 
@@ -57,7 +70,6 @@ const Registration = () => {
                     label="Email"
                     variant="filled"
                     fullWidth
-                    required={true}
                     value={login.email}
                     onChange={(e) =>
                         setLogin({ ...login, email: e.target.value })
@@ -92,7 +104,7 @@ const Registration = () => {
                     }}
                 />
 
-                <input ref={urlFile} accept="image/*" onChange={onFileChange} type={"file"} style={{ marginTop: '20px' }} />
+                <input ref={urlFile} accept="image/*" onChange={onFileChange} type={"file"} style={{ marginTop: '20px' }} required />
                 <Button
                     variant="contained"
                     sx={{
@@ -103,9 +115,13 @@ const Registration = () => {
                         },
                     }}
                     onClick={submitData}
+                    disabled={!isValid}
                     fullWidth>
                     Enter
                 </Button>
+                {error && (
+                    <div style={{color:'red'}}>{error}</div>
+                )}
             </Box>
         </div>
     );

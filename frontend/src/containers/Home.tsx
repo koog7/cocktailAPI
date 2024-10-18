@@ -3,6 +3,7 @@ import { AppDispatch, RootState } from '../app/store.ts';
 import { useEffect } from 'react';
 import { getAllCocktails } from './Thunk/CocktailsFetch.ts';
 import CocktailCard from '../components/CocktailCard.tsx';
+import { Box, Typography } from '@mui/material';
 
 const Home = () => {
 
@@ -33,7 +34,14 @@ const Home = () => {
                             />
                         ))
                     ) : (
-                        <h1>List of cocktail recipes are empty</h1>
+                        <Box textAlign="center" sx={{margin:'0 auto'}} mt={4}>
+                            <Typography variant="h5" color="white">
+                                The list of cocktail recipes is empty
+                            </Typography>
+                            <Typography variant="body1" color="white">
+                                Please add new cocktail recipes!
+                            </Typography>
+                        </Box>
                     )
                 ) : (
                     allCocktails.filter(cocktail => cocktail.isPublished).length > 0 ? (
@@ -47,10 +55,16 @@ const Home = () => {
                             />
                         ))
                     ) : (
-                        <h1>List of cocktail recipes are empty</h1>
+                        <Box textAlign="center" mt={4} sx={{margin:'0 auto'}}>
+                            <Typography variant="h5" color="white">
+                                The list of cocktail recipes is empty
+                            </Typography>
+                            <Typography variant="body1" color="white">
+                                Please add new cocktail recipes!
+                            </Typography>
+                        </Box>
                     )
                 )}
-
             </div>
         </div>
     );

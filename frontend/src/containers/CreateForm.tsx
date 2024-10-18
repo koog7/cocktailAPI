@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store.ts';
 import { postNewCocktail } from './Thunk/CocktailsFetch.ts';
@@ -19,6 +19,13 @@ const CreateForm = () => {
 
 
     const userData = useSelector((state: RootState) => state.User.user)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(!userData){
+            navigate('/')
+        }
+    }, [userData]);
 
     if(!userData){
         return;
@@ -39,7 +46,7 @@ const CreateForm = () => {
     const [file, setFile] = useState<File | null>(null);
     const dispatch = useDispatch();
     const [createAlert, setCreateAlert] = useState<boolean>(false);
-    const navigate = useNavigate();
+
 
     const addIngredient = () => {
         setCocktail(cocktail => ({
@@ -101,6 +108,8 @@ const CreateForm = () => {
             }, 5000);
         }
     }
+
+
     return (
         <div className="cocktail-form">
             <form onSubmit={onSubmitData}>

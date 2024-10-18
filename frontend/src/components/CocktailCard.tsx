@@ -14,9 +14,12 @@ const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayNa
           <Card sx={{ minWidth: 200 }}>
             <CardMedia
                 component="img"
-                height="140"
                 image={`http://localhost:8000/images/${image}`}
                 alt={name}
+                sx={{
+                    height: '200px',
+                    width: '200px',
+                }}
             />
             <CardContent style={{paddingBottom:'10px'}}>
               <Typography gutterBottom variant="h5" component="div">

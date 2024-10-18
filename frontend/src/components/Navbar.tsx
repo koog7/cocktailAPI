@@ -75,6 +75,7 @@ const Navbar = () => {
                                         'aria-labelledby': 'basic-button',
                                     }}
                                 >
+                                    <p style={{marginLeft:'15px'}}><strong>Your role: {userData?.role}</strong></p>
                                     <MenuItem onClick={handleClose} component={Link} to="/myCocktails">My cocktails</MenuItem>
                                     <MenuItem onClick={handleClose} component={Link} to="/createCocktail">Create New cocktail</MenuItem>
                                     <MenuItem onClick={logOut}>Logout</MenuItem>

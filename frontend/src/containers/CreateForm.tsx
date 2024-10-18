@@ -2,6 +2,8 @@ import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store.ts';
 import { postNewCocktail } from './Thunk/CocktailsFetch.ts';
+import { Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const CreateForm = () => {
 
@@ -36,6 +38,8 @@ const CreateForm = () => {
     const urlFile = useRef(null)
     const [file, setFile] = useState<File | null>(null);
     const dispatch = useDispatch();
+    const [createAlert, setCreateAlert] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const addIngredient = () => {
         setCocktail(cocktail => ({
@@ -90,6 +94,11 @@ const CreateForm = () => {
         if (cocktail) {
             const cocktailData = { ...cocktail, photo: file };
             dispatch(postNewCocktail(cocktailData));
+            setCreateAlert(true)
+
+            setTimeout(() => {
+                navigate('/')
+            }, 5000);
         }
     }
     return (
@@ -163,6 +172,7 @@ const CreateForm = () => {
                 <div className="form-field">
                     <button type="submit">Save</button>
                 </div>
+                <Alert style={{display:createAlert?'flex': 'none'}} severity="info">The cocktail will be added to the page after moderation. Redirection in 5 seconds</Alert>
             </form>
         </div>
     );

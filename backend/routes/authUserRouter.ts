@@ -21,9 +21,6 @@ authUserRouter.post('/' , imagesUpload.single('avatar') , async (req, res, next 
       return res.status(400).send({ message: 'Email already taken' });
     }
 
-    if (existingUser) {
-      return res.status(400).send({ message: 'Display name already taken' });
-    }
     const user = new User({
       email: req.body.email,
       displayName: req.body.displayName,

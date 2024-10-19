@@ -12,7 +12,7 @@ import CocktailInfo from './containers/CocktailInfo.tsx';
 import CreateForm from './containers/CreateForm.tsx';
 
 const App = () => {
-  const loader = useSelector((state: RootState) => state.Cocktail.loader)
+  const loader = useSelector((state: RootState) => state.Cocktail.loader);
 
   return(
     <>
@@ -48,7 +48,7 @@ const App = () => {
         </Routes>
       </div>
     </>
-  )
+  );
 };
 
-export default App
+export default App;

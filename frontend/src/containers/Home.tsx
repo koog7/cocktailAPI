@@ -8,8 +8,8 @@ import { Box, Typography } from '@mui/material';
 const Home = () => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const allCocktails = useSelector((state: RootState) => state.Cocktail.cocktail)
-    const userData = useSelector((state: RootState) => state.User.user)
+    const allCocktails = useSelector((state: RootState) => state.Cocktail.cocktail);
+    const userData = useSelector((state: RootState) => state.User.user);
 
     useEffect(() => {
         dispatch(getAllCocktails());

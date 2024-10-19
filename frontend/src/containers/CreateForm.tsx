@@ -18,12 +18,12 @@ const CreateForm = () => {
     }
 
 
-    const userData = useSelector((state: RootState) => state.User.user)
+    const userData = useSelector((state: RootState) => state.User.user);
     const navigate = useNavigate();
 
     useEffect(() => {
         if(!userData){
-            navigate('/')
+            navigate('/');
         }
     }, [userData , navigate]);
 
@@ -42,7 +42,7 @@ const CreateForm = () => {
             }],
         }
     );
-    const urlFile = useRef(null)
+    const urlFile = useRef(null);
     const [file, setFile] = useState<File | null>(null);
     const dispatch = useDispatch();
     const [createAlert, setCreateAlert] = useState<boolean>(false);
@@ -62,8 +62,8 @@ const CreateForm = () => {
         setCocktail({
             ...cocktail,
             [name]: value,
-        })
-    }
+        });
+    };
     const onIngChange = (event: React.ChangeEvent<HTMLInputElement> , index: number) =>{
         const {name , value} = event.target;
         setCocktail((prev) => {
@@ -74,26 +74,26 @@ const CreateForm = () => {
                 ...prev,
                 ingredients: ingredientsCopy
             };
-        })
-    }
+        });
+    };
     const onIngDelete = (index: number)=>{
         setCocktail((prev) => {
             return {
                 ...prev,
                 ingredients: prev.ingredients.filter((_,i) => i !== index)
-            }
-        })
-    }
+            };
+        });
+    };
 
     const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const fileInput = e.target.files
+        const fileInput = e.target.files;
 
         if (fileInput && fileInput[0]) {
-            setFile(fileInput[0])
+            setFile(fileInput[0]);
         } else {
-            setFile(null)
+            setFile(null);
         }
-    }
+    };
 
     const onSubmitData = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -101,13 +101,13 @@ const CreateForm = () => {
         if (cocktail) {
             const cocktailData = { ...cocktail, photo: file };
             dispatch(postNewCocktail(cocktailData));
-            setCreateAlert(true)
+            setCreateAlert(true);
 
             setTimeout(() => {
-                navigate('/')
+                navigate('/');
             }, 5000);
         }
-    }
+    };
 
 
     return (

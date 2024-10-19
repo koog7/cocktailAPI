@@ -11,9 +11,9 @@ const Registration = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
-    const urlFile = useRef(null)
+    const urlFile = useRef(null);
     const [file, setFile] = useState<File | null>(null);
-    const error = useSelector((state: RootState) => state.User.error)
+    const error = useSelector((state: RootState) => state.User.error);
 
     const [login, setLogin] = useState({
         email: '',
@@ -42,14 +42,14 @@ const Registration = () => {
         }
     };
     const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const fileInput = e.target.files
+        const fileInput = e.target.files;
 
         if (fileInput && fileInput[0]) {
-            setFile(fileInput[0])
+            setFile(fileInput[0]);
         } else {
-            setFile(null)
+            setFile(null);
         }
-    }
+    };
 
 
     const googleLoginHandler = async (credential: string) => {

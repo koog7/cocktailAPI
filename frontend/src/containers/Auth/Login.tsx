@@ -11,7 +11,7 @@ const Login = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
-    const error = useSelector((state: RootState) => state.User.error)
+    const error = useSelector((state: RootState) => state.User.error);
 
     const [login, setLogin] = useState({
           email: '',
@@ -111,6 +111,6 @@ const Login = () => {
                 }}/>
             </Box>
         </div>
-    )};
+    );};
 
   export default Login;

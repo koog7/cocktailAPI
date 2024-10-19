@@ -14,18 +14,18 @@ interface CocktailCardProps {
 
 const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayName, isPublished }) => {
 
-    const userData = useSelector((state: RootState) => state.User.user)
+    const userData = useSelector((state: RootState) => state.User.user);
     const dispatch = useDispatch<AppDispatch>();
 
     const clickActivateRecipe = async (id:string) => {
-        await dispatch(activateRecipe(id))
-        location.reload()
-    }
+        await dispatch(activateRecipe(id));
+        location.reload();
+    };
 
     const clickDelete = async (id:string) => {
-        await dispatch(deleteRecipe(id))
-        location.reload()
-    }
+        await dispatch(deleteRecipe(id));
+        location.reload();
+    };
 
     return (
         <NavLink to={`/cocktail/${_id}`} style={{textDecoration:'none', color:'white'}}>
@@ -65,7 +65,7 @@ const CocktailCard: React.FC<CocktailCardProps> = ({ _id, image, name, displayNa
                           onClick={(e) =>{
                               e.preventDefault();
                               e.stopPropagation();
-                              clickDelete(_id)}}
+                              clickDelete(_id);}}
                           style={{ backgroundColor: 'red', margin: '10px' }}
                       >
                           Delete

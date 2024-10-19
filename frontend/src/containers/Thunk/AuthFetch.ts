@@ -109,7 +109,7 @@ export const UserSlice = createSlice({
         builder.addCase(authorizationUser.rejected, (state: UserState , action) => {
             state.loader = false;
             state.error = action.payload as string;
-        })
+        });
         builder.addCase(logout.pending, (state: UserState) => {
             state.loader = true;
             state.error = null;
@@ -137,7 +137,7 @@ export const UserSlice = createSlice({
             state.error = action.payload as string;
         });
     },
-})
+});
 
 
 export const UserReducer = UserSlice.reducer;

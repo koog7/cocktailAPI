@@ -23,6 +23,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'semi': ['error', 'always'],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-unused-vars': ['warn', { vars: 'all', args: 'after-used', ignoreRestSiblings: true }],
     },
   },
 )

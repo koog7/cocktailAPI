@@ -44,27 +44,27 @@ const initialState: CocktailState = {
 
 
 export const getAllCocktails = createAsyncThunk<CocktailProps[], void>('cocktail/getAll', async () =>{
-    const response = await axiosAPI.get('/cocktail')
+    const response = await axiosAPI.get('/cocktail');
     return response.data;
-})
+});
 
 export const getUserCocktail = createAsyncThunk<CocktailProps[],string>('cocktail/getUserCocktail', async (id:string) =>{
-    const response = await axiosAPI.get(`/cocktail/userId/${id}`)
+    const response = await axiosAPI.get(`/cocktail/userId/${id}`);
     return response.data;
-})
+});
 
 export const getOneCocktail = createAsyncThunk<CocktailProps[],string>('cocktail/getOne', async (id:string) =>{
-    const response = await axiosAPI.get(`/cocktail/${id}`)
+    const response = await axiosAPI.get(`/cocktail/${id}`);
     return response.data;
-})
+});
 
 export const activateRecipe = createAsyncThunk<void , string>('cocktail/activate', async (id:string) =>{
-    await axiosAPI.patch(`/cocktail/${id}/activate`)
-})
+    await axiosAPI.patch(`/cocktail/${id}/activate`);
+});
 
 export const deleteRecipe = createAsyncThunk<void, string>('cocktail/delete', async (id:string) =>{
-    await axiosAPI.delete(`/cocktail/${id}`)
-})
+    await axiosAPI.delete(`/cocktail/${id}`);
+});
 
 export const postNewCocktail = createAsyncThunk<void , ICocktail , { rejectValue: string }>('cocktail/postNew' , async(ICocktail, { rejectWithValue }) =>{
     try {
@@ -80,11 +80,11 @@ export const postNewCocktail = createAsyncThunk<void , ICocktail , { rejectValue
             formData.append(`ingredients[${index}][amount]`, ingredient.amount);
         });
 
-        await axiosAPI.post('/cocktail', formData)
+        await axiosAPI.post('/cocktail', formData);
     }catch (error) {
-        return rejectWithValue('An unknown error occurred');
+        return rejectWithValue(`An unknown ${error} occurred`);
     }
-})
+});
 
 export const CocktailsSlice = createSlice({
     name:'Cocktail',
@@ -155,6 +155,6 @@ export const CocktailsSlice = createSlice({
             state.error = action.payload as string;
         });
     }
-})
+});
 
 export const CocktailsReducer = CocktailsSlice.reducer;

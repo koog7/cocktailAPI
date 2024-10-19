@@ -7,11 +7,11 @@ import { getOneCocktail } from './Thunk/CocktailsFetch.ts';
 const CocktailInfo = () => {
     const {id} = useParams();
     const dispatch = useDispatch<AppDispatch>();
-    const allCocktails = useSelector((state: RootState) => state.Cocktail.cocktail)
+    const allCocktails = useSelector((state: RootState) => state.Cocktail.cocktail);
 
     useEffect(() => {
         if(id){
-            dispatch(getOneCocktail(id))
+            dispatch(getOneCocktail(id));
         }
     }, [dispatch, id]);
     return (

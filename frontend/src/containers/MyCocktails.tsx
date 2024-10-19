@@ -9,8 +9,8 @@ import { Box, Typography } from '@mui/material';
 const MyCocktails = () => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const allCocktails = useSelector((state: RootState) => state.Cocktail.cocktail)
-    const userData = useSelector((state: RootState) => state.User.user)
+    const allCocktails = useSelector((state: RootState) => state.Cocktail.cocktail);
+    const userData = useSelector((state: RootState) => state.User.user);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const MyCocktails = () => {
 
     useEffect(() => {
       if(!userData?.token){
-        navigate('/')
+        navigate('/');
       }
     }, [userData?.token]);
 

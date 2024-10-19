@@ -7,19 +7,19 @@ import { useState } from 'react';
 
 const Navbar = () => {
 
-    const userData = useSelector((state: RootState) => state.User.user)
+    const userData = useSelector((state: RootState) => state.User.user);
 
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
     const logOut = async () => {
         if(userData){
-            await dispatch(logout(userData.token))
-            navigate('/')
+            await dispatch(logout(userData.token));
+            navigate('/');
             localStorage.removeItem("persist:exam:User");
-            location.reload()
+            location.reload();
         }
-    }
+    };
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);

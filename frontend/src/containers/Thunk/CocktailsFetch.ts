@@ -43,26 +43,26 @@ const initialState: CocktailState = {
 };
 
 
-export const getAllCocktails = createAsyncThunk('cocktail/getAll', async () =>{
+export const getAllCocktails = createAsyncThunk<CocktailProps[], void>('cocktail/getAll', async () =>{
     const response = await axiosAPI.get('/cocktail')
     return response.data;
 })
 
-export const getUserCocktail = createAsyncThunk('cocktail/getUserCocktail', async (id:string) =>{
+export const getUserCocktail = createAsyncThunk<CocktailProps[],string>('cocktail/getUserCocktail', async (id:string) =>{
     const response = await axiosAPI.get(`/cocktail/userId/${id}`)
     return response.data;
 })
 
-export const getOneCocktail = createAsyncThunk('cocktail/getOne', async (id:string) =>{
+export const getOneCocktail = createAsyncThunk<CocktailProps[],string>('cocktail/getOne', async (id:string) =>{
     const response = await axiosAPI.get(`/cocktail/${id}`)
     return response.data;
 })
 
-export const activateRecipe = createAsyncThunk('cocktail/activate', async (id:string) =>{
+export const activateRecipe = createAsyncThunk<void , string>('cocktail/activate', async (id:string) =>{
     await axiosAPI.patch(`/cocktail/${id}/activate`)
 })
 
-export const deleteRecipe = createAsyncThunk('cocktail/delete', async (id:string) =>{
+export const deleteRecipe = createAsyncThunk<void, string>('cocktail/delete', async (id:string) =>{
     await axiosAPI.delete(`/cocktail/${id}`)
 })
 
